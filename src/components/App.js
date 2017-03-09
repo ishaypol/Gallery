@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './App.css';
 import axios from 'axios';
 
 var Photo = React.createClass({
@@ -22,7 +21,6 @@ var Photo = React.createClass({
         }
     },
     render: function () {
-            // console.log(this.state.data);
             var photo_url = `https://farm${this.props.photo_data.farm}.staticflickr.com/${this.props.photo_data.server}` +
                 `/${this.props.photo_data.id}_${this.props.photo_data.secret}.jpg`;
             var display = 'none';
@@ -31,7 +29,7 @@ var Photo = React.createClass({
                 <div style={{display:'inLine'}}>
                     {this.renderSpinner()}
                     <img src={photo_url} className="photo" alt={this.props.source} onLoad={this.HandleOnLoad}
-                         style={{display:display}} height="150" width="150"/>
+                         style={{display:display}} height="165" width="165"/>
                 </div>
             );
         }
@@ -54,7 +52,7 @@ var PhotoContainer = React.createClass({
                         <option value="20">20</option>
                         <option value="50">50</option>
                     </select>
-                <div>
+                <div className="Photos">
                     {
                         this.props.photos.slice(0,this.state.display_num).map((photo_data)=> {
                             return(

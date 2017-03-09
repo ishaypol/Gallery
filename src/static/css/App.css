@@ -1,5 +1,16 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
 .App {
   text-align: center;
+}
+
+.Photos {
+  margin-left: 15%;
+  margin-right: 15%;
 }
 
 .photo {
