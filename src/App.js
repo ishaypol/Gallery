@@ -2,16 +2,40 @@ import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios';
 
-function Photo(props){
-        var photo_url = `https://farm${props.photo_data.farm}.staticflickr.com/${props.photo_data.server}` +
-            `/${props.photo_data.id}_${props.photo_data.secret}.jpg`;
-        var pic = axios.get(photo_url).then(res => {
-            return res.data;
-        });
-        return (
-            <img src={photo_url} className="photo" alt={props.source} height="200" width="200"/>
-        );
-}
+var Photo = React.createClass({
+    getInitialState: function () {
+        return {
+            loading: true,
+        }
+    },
+    HandleOnLoad: function(){
+        this.setState(
+            {loading: false});
+        document.getEle
+    },
+    renderSpinner: function () {
+        if (this.state.loading) {
+            return <div className="preloader4"></div>;
+        }
+        else{
+            return null;
+        }
+    },
+    render: function () {
+            // console.log(this.state.data);
+            var photo_url = `https://farm${this.props.photo_data.farm}.staticflickr.com/${this.props.photo_data.server}` +
+                `/${this.props.photo_data.id}_${this.props.photo_data.secret}.jpg`;
+            var display = 'none';
+            if(!this.state.loading){display='inLine'}
+            return (
+                <div style={{display:'inLine'}}>
+                    {this.renderSpinner()}
+                    <img src={photo_url} className="photo" alt={this.props.source} onLoad={this.HandleOnLoad}
+                         style={{display:display}} height="150" width="150"/>
+                </div>
+            );
+        }
+});
 
 var PhotoContainer = React.createClass({
 
@@ -24,6 +48,12 @@ var PhotoContainer = React.createClass({
     render: function () {
         return (
             <div>
+                    <select  className="dropdown" defaultValue='10' onInput={this.handleNumChange}>
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                    </select>
                 <div>
                     {
                         this.props.photos.slice(0,this.state.display_num).map((photo_data)=> {
@@ -32,14 +62,6 @@ var PhotoContainer = React.createClass({
                             );
                         })
                     }
-                </div>
-                <div>
-                    <select className="dropdown" onInput={this.handleNumChange}>
-                        <option value="5">5</option>
-                        <option value="10" selected="selected">10</option>
-                        <option value="20">20</option>
-                        <option value="50">50</option>
-                    </select>
                 </div>
             </div>
         );
@@ -64,7 +86,6 @@ var Layout = React.createClass({
     render: function () {
         return (
             <div>
-                <h1> My Photo Gallery</h1>
                 <SearchField searchPhotos={this.searchPhotos}/>
                 <PhotoContainer photos={this.state.photos}/>
             </div>
@@ -87,13 +108,15 @@ var SearchField = React.createClass({
     },
    render: function () {
        return(
-           <form onSubmit={this.handleSubmit} >
-               <input type="text"  value={this.state.value}  onChange={this.handleChange} placeholder="what do you want to look for?"/>
-               <input type="submit" value="Search"/>
+           <form className="searchbox_1" onSubmit={this.handleSubmit}>
+                <input type="search" className="search_1" onChange={this.handleChange} placeholder="Search Photos" />
+                <button type="submit" className="submit_1" value="search">Go!</button>
            </form>
        );
    }
 });
+
+
 
 
 class App extends Component {
